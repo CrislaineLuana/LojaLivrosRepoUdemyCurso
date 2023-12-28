@@ -11,5 +11,6 @@ namespace LojaLivros
         Tarde = 2,
         Madrugada = 3,
         Cliente = 4
+
     }
 }
