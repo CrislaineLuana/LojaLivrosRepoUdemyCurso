@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ClienteModel> 
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success text-dark" role="alert">
+          @TempData["MensagemSucesso"]
+    </div>
+} 
+
+@if (TempData["MensagemErro"] != null)
+{
+  <div class="alert alert-danger text-dark" role="alert">
+          @TempData["MensagemErro"]
+    </div>
+} 
+
+
+<div class="container mt-5">
+
+    <div class="btn-box d-flex justify-content-between align-items-center mb-3">
+          <h2>Cadastro de Clientes!</h2>
+          <a asp-controller="Cliente" asp-action="Cadastrar" class="btn-success btn"><i class="bi bi-plus-circle"></i> Cadastrar novo cliente</a>
+    </div>
+
+    <table class="table table-hover" id="usuarios">
+     <thead>
+        <tr>
+          <th></th>
+          <th scope="col">Usuário</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Email</th>
+          <th scope="col">Data Criação</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+            @if (Model.Where(registros => registros.Situação == true).Count() > 0)
+            {
+                @foreach (var usuario in Model.Where(registros => registros.Situação == true).ToList())
+                {
+                     <tr>
+                        @if(usuario.Situação == true)
+                        {
+                            <td>
+                                <img src="img/Ativo.png" style="width: 25px; height: 25px"/>
+                            </td>
+                        }else
+                        {
+                            <td>
+                                <img src="img/Inativo.png" style="width: 25px; height: 25px" />
+                            </td>
+                        }
+                        <th scope="row"><i class="bi bi-people"></i> @usuario.Usuario</th>
+                      <td>@usuario.NomeCompleto</td>
+                      <td>@usuario.Endereco.Estado</td>
+                      <td><i class="bi bi-envelope-at"></i> @usuario.Email</td>
+                      <td><i class="bi bi-calendar"></i> @usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
+                      <td>
+                          <a asp-controller="Cliente" asp-action="Detalhes" asp-route-id="@usuario.Id" class="btn-warning btn"><i class="bi bi-file-earmark-zip"></i> Detalhes</a>
+                          <a asp-controller="Cliente" asp-action="Editar" asp-route-id="@usuario.Id" class="btn-info btn"><i class="bi bi-pencil"></i> Editar</a>
+                      </td>
+                    </tr>
+                }
+            }
+            
+        
+        
+      </tbody>
+    </table>
+</div>

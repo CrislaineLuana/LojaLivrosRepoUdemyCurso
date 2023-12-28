@@ -1,0 +1,81 @@
+﻿@model IEnumerable<LivroModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success text-dark" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger text-dark" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
+
+
+<div class="container mt-5">
+
+    <div class="btn-box d-flex justify-content-between align-items-center mb-3">
+        <h2>Cadastro de livros!</h2>
+        <a asp-controller="Livro" asp-action="Cadastrar" class="btn-success btn"><i class="bi bi-plus-circle"></i> Cadastrar novo livro</a>
+    </div>
+
+    <table class="table table-hover" id="usuarios">
+        <thead>
+            <tr>
+                <th></th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Genero</th>
+                <th scope="col">Quantidade Estoque</th>
+                <th scope="col">DataCadastro</th>         
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null)
+            {
+                @if (Model.Count() > 0)
+                {
+                    @foreach (var livro in Model)
+                    {
+                        <tr>
+                            @if (livro.Capa != null)
+                            {
+                                <td>
+                                    <img src="imagem/@livro.Capa" style="width: 50px; height: 50px" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    
+                                </td>
+                            }
+                            <td scope="row"><i class="bi bi-people"></i> @livro.Titulo</td>
+                            <td>@livro.Autor</td>
+                            <td>@livro.Genero</td>
+                            <td><i class="bi bi-envelope-at"></i> @livro.QuantidadeEstoque</td>
+                            <td><i class="bi bi-calendar"></i> @livro.DataCadastro.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <a asp-controller="Livro" asp-action="Detalhes" asp-route-id="@livro.Id" class="btn-warning btn"><i class="bi bi-file-earmark-zip"></i> Detalhes</a>
+                                <a asp-controller="Livro" asp-action="Editar" asp-route-id="@livro.Id" class="btn-info btn"><i class="bi bi-pencil"></i> Editar</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            
+
+
+
+        </tbody>
+    </table>
+</div>

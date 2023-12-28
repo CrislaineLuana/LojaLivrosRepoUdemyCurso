@@ -1,0 +1,65 @@
+﻿@model UsuarioModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container mt-5">
+    <form method="post" asp-action="MudarSituacaoUsuario" asp-controller="Usuario">
+        <input asp-for="Id"  type="hidden"/>
+        <h2>Detalhes de Usuários</h2>
+         <div class="mb-1">
+        <label class="form-label">Nome Completo:</label>
+        <input type="text" asp-for="NomeCompleto" class="form-control shadow-none" disabled>
+      </div>
+       <div class="mb-1">
+        <label class="form-label">Usuário:</label>
+        <input type="text"  asp-for="Usuario" class="form-control shadow-none" disabled>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">E-mail:</label>
+        <input type="email"  asp-for="Email" class="form-control shadow-none" disabled>
+      </div>
+      <div class="mb-1">
+        <label class="form-label">Situação:</label>
+        <input type="text" value="@(Model.Situação == true ? "Ativo" : "Inativo")" class="form-control shadow-none" disabled>
+      </div>
+       <div class="mb-1">
+        <label class="form-label">Data Cadastro:</label>
+        <input type="text"  asp-for="DataCadastro" class="form-control shadow-none" disabled>
+      </div>
+       <div class="mb-1">
+        <label class="form-label">Data última alteração:</label>
+        <input type="text"  asp-for="DataAlteracao" class="form-control shadow-none" disabled>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Cargo:</label>
+        <select type="text"  asp-for="Cargo" class="form-control shadow-none" disabled>
+            <option value="Administrador">Administrador</option>
+            <option value="Operador">Operador</option>
+        </select>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Turno:</label>
+        <select type="text"  asp-for="Turno"  class="form-control shadow-none" disabled>
+            <option value="Manha">Manha</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Madrugada">Madrugada</option>
+        </select>
+      </div>
+      
+      <div class="btn-box d-flex mt-3"> 
+            @if (Model.Situação == false)
+            {
+                <button type="submit" type="button" class="btn btn-success w-50 mx-1"><i class="bi bi-plus"></i> Ativar Usuário!</button>
+            }else
+            {
+                <button type="submit" type="button" class="btn btn-danger w-50 mx-1"><i class="bi bi-x"></i> Inativar Usuário!</button>
+            }
+           
+           <a type="submit" class="btn btn-info w-50" asp-controller="Usuario" asp-action="Index"><i class="bi bi-arrow-left-circle"></i> Voltar</a>
+      </div>
+
+    </form>
+</div>

@@ -1,0 +1,66 @@
+﻿@using LojaLivros.Dtos.Usuarios
+@model UsuarioRegisterDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@if (TempData["MensagemErro"] != null)
+{
+  <div class="alert alert-danger text-dark" role="alert">
+          @TempData["MensagemErro"]
+    </div>
+} 
+
+<div class="container mt-5">
+    <form method="post" asp-action="Cadastrar" asp-controller="Usuario">
+        <h2>Cadastro de Usuários</h2>
+       <div class="mb-1">
+        <label class="form-label">Nome Completo:</label>
+        <input type="text" asp-for="NomeCompleto" class="form-control shadow-none">
+        <span class="text-danger" asp-validation-for="NomeCompleto" ></span>
+      </div>
+       <div class="mb-1">
+        <label class="form-label">Usuário:</label>
+        <input type="text" asp-for="Usuario" class="form-control shadow-none">
+        <span class="text-danger" asp-validation-for="Usuario" ></span>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">E-mail:</label>
+        <input type="email" asp-for="Email" class="form-control shadow-none">
+        <span class="text-danger" asp-validation-for="Email" ></span>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Cargo:</label>
+        <select type="text" asp-for="Cargo" class="form-control shadow-none">
+            <option value="Administrador">Administrador</option>
+            <option value="Operador">Operador</option>
+        </select>
+        <span class="text-danger" asp-validation-for="Cargo" ></span>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Turno:</label>
+        <select type="text" asp-for="Turno"  class="form-control shadow-none">
+            <option value="Manha">Manha</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Madrugada">Madrugada</option>
+        </select>
+        <span class="text-danger" asp-validation-for="Turno" ></span>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Senha:</label>
+        <input type="password" asp-for="Senha"  class="form-control shadow-none" >
+         <span class="text-danger" asp-validation-for="Senha" ></span>
+      </div>
+      <div class="mb-1">
+        <label  class="form-label">Confirmar Senha:</label>
+        <input type="password"  asp-for="ConfirmarSenha" class="form-control shadow-none" >
+        <span class="text-danger" asp-validation-for="ConfirmarSenha" ></span>
+      </div>
+      <div class="btn-box d-flex mt-3"> 
+           <button type="submit" type="button" class="btn btn-success w-50 mx-1" ><i class="bi bi-plus-circle"></i> Cadastrar!</button>
+           <a type="submit" class="btn btn-info w-50" asp-controller="Usuario" asp-action="Index"><i class="bi bi-arrow-left-circle"></i> Voltar</a>
+      </div>
+
+    </form>
+</div>
