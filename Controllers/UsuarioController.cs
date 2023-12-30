@@ -1,4 +1,7 @@
-﻿using LojaLivros.Dtos.Usuarios;
+﻿using AutoMapper;
+using LojaLivros.Dtos.Endereco;
+using LojaLivros.Dtos.Usuarios;
+using LojaLivros.Enums;
 using LojaLivros.Models;
 using LojaLivros.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
@@ -8,21 +11,36 @@ namespace LojaLivros.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;
+        private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioInterface usuarioInterface)
+        public UsuarioController(IUsuarioInterface usuarioInterface, IMapper mapper)
         {
             _usuarioInterface = usuarioInterface;
+            _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? Id)
         {
-            var usuarios = await _usuarioInterface.BuscarUsuarios();
+            var usuarios = await _usuarioInterface.BuscarUsuarios(Id);
             return View(usuarios);
         }
 
-        public IActionResult Cadastrar()
+        public IActionResult Cadastrar(int? id)
         {
-            return View();
+            UsuarioRegisterDto usuarioRegisterDto = new UsuarioRegisterDto()
+            {
+                Cargo = PerfilEnum.Operador
+            };
+
+            if (id != null)
+            {
+                 usuarioRegisterDto = new UsuarioRegisterDto()
+                {
+                    Cargo = PerfilEnum.Cliente
+                };
+            }
+           
+            return View(usuarioRegisterDto);
         }
 
         public async Task<IActionResult> Detalhes(int? Id)
@@ -52,7 +70,8 @@ namespace LojaLivros.Controllers
                     Cargo = usuario.Cargo,
                     Turno = usuario.Turno,
                     Id = usuario.Id,
-                    Usuario = usuario.Usuario
+                    Usuario = usuario.Usuario,
+                    Endereco = _mapper.Map<EnderecoEditarDto>(usuario.Endereco)
                 };
                 return View(usuarioEditado);
             }
@@ -61,13 +80,13 @@ namespace LojaLivros.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MudarSituacaoUsuario(UsuarioModel usuarioInativar)
+        public async Task<IActionResult> MudarSituacaoUsuario(UsuarioModel usuario)
         {
-            if (usuarioInativar.Id != 0 && usuarioInativar.Id != null )
+            if (usuario.Id != 0 && usuario.Id != null )
             {
-                var usuario = await _usuarioInterface.MudarSituacaoUsuario(usuarioInativar.Id);
+                var usuarioBanco = await _usuarioInterface.MudarSituacaoUsuario(usuario.Id);
                 
-                if(usuario.Situação == true)
+                if(usuarioBanco.Situação == true)
                 {
                     TempData["MensagemSucesso"] = "Usuário ativo com sucesso!";
                 }
@@ -75,8 +94,11 @@ namespace LojaLivros.Controllers
                 {
                    TempData["MensagemSucesso"] = "Inativação realizada com sucesso!";
                 }
-
-                return RedirectToAction("Index");
+                if(usuarioBanco.Cargo != PerfilEnum.Cliente)
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index", "Cliente",new { Id = "0"});
             }
             else
             {
@@ -93,12 +115,21 @@ namespace LojaLivros.Controllers
             {
                 if (!await _usuarioInterface.VerificaSeExisteUsuarioEEmail(usuarioRegisterDto))
                 {
+                    
                     TempData["MensagemErro"] = "Já existe email/usuário cadastrado!";
-                    return View(usuarioRegisterDto);
+
+                        return View(usuarioRegisterDto);
+                    
+
                 }
                 var usuario = await _usuarioInterface.Cadastrar(usuarioRegisterDto);
                 TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
-                return RedirectToAction("Index");
+                if (usuario.Cargo != PerfilEnum.Cliente)
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index", "Cliente", new { Id = "0" });
+
             }
             else
             {
@@ -115,7 +146,12 @@ namespace LojaLivros.Controllers
             {
                 var usuario = await _usuarioInterface.Editar(usuarioEditado);
                 TempData["MensagemSucesso"] = "Edição realizada com sucesso!";
-                return RedirectToAction("Index");
+
+                if (usuario.Cargo != PerfilEnum.Cliente)
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index", "Cliente", new { Id = "0" });
             }
             else
             {

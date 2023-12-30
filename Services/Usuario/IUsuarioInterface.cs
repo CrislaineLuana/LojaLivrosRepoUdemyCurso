@@ -6,7 +6,7 @@ namespace LojaLivros.Services.Usuario
     public interface IUsuarioInterface
     {
         Task<UsuarioRegisterDto> Cadastrar(UsuarioRegisterDto usuarioRegisterDto);
-        Task<List<UsuarioModel>> BuscarUsuarios();
+        Task<List<UsuarioModel>> BuscarUsuarios(int? id);
         Task<UsuarioModel> BuscarUsuarioPorId(int? idUsuario);
         Task<UsuarioModel> MudarSituacaoUsuario(int idUsuario);
         Task<UsuarioEditarDto> Editar(UsuarioEditarDto usuarioEditado);

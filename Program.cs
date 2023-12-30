@@ -1,6 +1,5 @@
 using LojaLivros.Data;
 using LojaLivros.Services.Autenticacao;
-using LojaLivros.Services.Cliente;
 using LojaLivros.Services.Home;
 using LojaLivros.Services.Livro;
 using LojaLivros.Services.Usuario;
@@ -15,12 +14,10 @@ builder.Services.AddDbContext<DataDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IClienteInterface, ClienteService>();
 builder.Services.AddScoped<IUsuarioInterface, UsuarioService>();
 builder.Services.AddScoped<ILivroInterface, LivroService>();
 builder.Services.AddScoped<IHomeInterface, HomeService>();
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
-builder.Services.AddScoped<IClienteInterface, ClienteService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -1,4 +1,6 @@
-﻿using LojaLivros.Data;
+﻿using AutoMapper;
+using LojaLivros.Data;
+using LojaLivros.Dtos.Clientes;
 using LojaLivros.Dtos.Usuarios;
 using LojaLivros.Models;
 using LojaLivros.Services.Autenticacao;
@@ -8,13 +10,15 @@ namespace LojaLivros.Services.Usuario
 {
     public class UsuarioService : IUsuarioInterface
     {
-        private readonly DataDbContext _dbContext;
+        private readonly DataDbContext _context;
         private readonly IAutenticacaoInterface _autenticacaoInterface;
+        private readonly IMapper _mapper;
 
-        public UsuarioService(DataDbContext context, IAutenticacaoInterface autenticacaoInterface) 
+        public UsuarioService(DataDbContext context, IAutenticacaoInterface autenticacaoInterface, IMapper mapper) 
         {
-            _dbContext = context;
+            _context = context;
             _autenticacaoInterface = autenticacaoInterface;
+            _mapper = mapper;
         }
 
 
@@ -38,8 +42,24 @@ namespace LojaLivros.Services.Usuario
                 };
 
                 //Criar Cadastro banco
-                _dbContext.Add(Usuario);
-                await _dbContext.SaveChangesAsync();
+                _context.Add(Usuario);
+                await _context.SaveChangesAsync();
+
+                var usuarioCriado = await _context.Usuarios.FirstOrDefaultAsync(usuario => usuario.Email == usuarioRegisterDto.Email);
+
+                var endereco = new EnderecoModel
+                {
+                    Logradouro = usuarioRegisterDto.Logradouro,
+                    Bairro = usuarioRegisterDto.Bairro,
+                    CEP = usuarioRegisterDto.CEP,
+                    Complemento = usuarioRegisterDto.Complemento,
+                    Numero = usuarioRegisterDto.Numero,
+                    Estado = usuarioRegisterDto.Estado,
+                    UsuarioId = usuarioCriado.Id
+                };
+
+                _context.Add(endereco);
+                await _context.SaveChangesAsync();
 
                 return usuarioRegisterDto;
             }
@@ -54,7 +74,7 @@ namespace LojaLivros.Services.Usuario
             try
             {   
 
-                var mesmoUsuario = await _dbContext.Usuarios.FirstOrDefaultAsync(usuarioBanco => usuarioBanco.Email == usuarioRegisterDto.Email || usuarioBanco.Usuario == usuarioRegisterDto.Usuario);
+                var mesmoUsuario = await _context.Usuarios.FirstOrDefaultAsync(usuarioBanco => usuarioBanco.Email == usuarioRegisterDto.Email || usuarioBanco.Usuario == usuarioRegisterDto.Usuario);
 
                 if (mesmoUsuario == null)
                 {
@@ -79,7 +99,7 @@ namespace LojaLivros.Services.Usuario
             try
             {
 
-                var usuarioEditar = await _dbContext.Usuarios.FindAsync(usuarioEditado.Id);
+                var usuarioEditar = await _context.Usuarios.Include(endereco => endereco.Endereco).FirstOrDefaultAsync(usuario => usuario.Id == usuarioEditado.Id);
 
                 if (usuarioEditar != null)
                 {
@@ -89,10 +109,11 @@ namespace LojaLivros.Services.Usuario
                     usuarioEditar.Usuario = usuarioEditado.Usuario;
                     usuarioEditar.Email = usuarioEditado.Email;
                     usuarioEditar.DataAlteracao = DateTime.Now;
+                    usuarioEditar.Endereco = _mapper.Map<EnderecoModel>(usuarioEditado.Endereco);
 
 
-                    _dbContext.Update(usuarioEditar);
-                    await _dbContext.SaveChangesAsync();
+                    _context.Update(usuarioEditar);
+                    await _context.SaveChangesAsync();
 
                     return usuarioEditado;
                 }
@@ -111,7 +132,7 @@ namespace LojaLivros.Services.Usuario
         {
             try
             {
-                var usuarioMudarSituacao = await _dbContext.Usuarios.FindAsync(idUsuario);
+                var usuarioMudarSituacao = await _context.Usuarios.FindAsync(idUsuario);
 
                 if(usuarioMudarSituacao != null)
                 {
@@ -127,8 +148,8 @@ namespace LojaLivros.Services.Usuario
                     }
                     
 
-                    _dbContext.Update(usuarioMudarSituacao);
-                    await _dbContext.SaveChangesAsync();
+                    _context.Update(usuarioMudarSituacao);
+                    await _context.SaveChangesAsync();
 
                     return usuarioMudarSituacao;
                 }
@@ -148,7 +169,7 @@ namespace LojaLivros.Services.Usuario
             try
             {
 
-                var usuario = await _dbContext.Usuarios.FirstOrDefaultAsync(usuario => usuario.Id == idUsuario);
+                var usuario = await _context.Usuarios.Include(endereco => endereco.Endereco).FirstOrDefaultAsync(usuario => usuario.Id == idUsuario);
                 return usuario;
 
             }catch(Exception ex)
@@ -157,13 +178,22 @@ namespace LojaLivros.Services.Usuario
             }
         }
 
-        public async Task<List<UsuarioModel>> BuscarUsuarios()
+        public async Task<List<UsuarioModel>> BuscarUsuarios(int? Id)
         {
            
             try
             {
-                var usuarios = await _dbContext.Usuarios.ToListAsync();
-                return usuarios;
+                var registros = new List<UsuarioModel>();
+                if (Id != null)
+                {
+                    registros = await _context.Usuarios.Where(cliente => cliente.Cargo == 0).Include(endereco => endereco.Endereco). ToListAsync();
+                }
+                else
+                {
+                    registros = await _context.Usuarios.Where(cliente => cliente.Cargo != 0).Include(endereco => endereco.Endereco).ToListAsync();
+                }
+
+                return registros;
             }
             catch (Exception ex)
             {

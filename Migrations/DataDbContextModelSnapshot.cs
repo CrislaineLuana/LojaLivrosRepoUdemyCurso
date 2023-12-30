@@ -86,9 +86,6 @@ namespace LojaLivros.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Complemento")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -105,9 +102,12 @@ namespace LojaLivros.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId")
+                    b.HasIndex("UsuarioId")
                         .IsUnique();
 
                     b.ToTable("Enderecos");
@@ -125,6 +125,10 @@ namespace LojaLivros.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Autor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Capa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -208,16 +212,16 @@ namespace LojaLivros.Migrations
 
             modelBuilder.Entity("LojaLivros.Models.EnderecoModel", b =>
                 {
-                    b.HasOne("LojaLivros.Models.ClienteModel", "Cliente")
+                    b.HasOne("LojaLivros.Models.UsuarioModel", "Usuario")
                         .WithOne("Endereco")
-                        .HasForeignKey("LojaLivros.Models.EnderecoModel", "ClienteId")
+                        .HasForeignKey("LojaLivros.Models.EnderecoModel", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("LojaLivros.Models.ClienteModel", b =>
+            modelBuilder.Entity("LojaLivros.Models.UsuarioModel", b =>
                 {
                     b.Navigation("Endereco")
                         .IsRequired();

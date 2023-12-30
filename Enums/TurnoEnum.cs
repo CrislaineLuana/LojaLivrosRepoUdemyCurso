@@ -10,7 +10,7 @@ namespace LojaLivros
         Manha = 1,
         Tarde = 2,
         Madrugada = 3,
-        Cliente = 4
+        Cliente = 0
 
     }
 }

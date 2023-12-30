@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClienteModel> 
+﻿@model IEnumerable<UsuarioModel> 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -24,7 +24,7 @@
 
     <div class="btn-box d-flex justify-content-between align-items-center mb-3">
           <h2>Cadastro de Clientes!</h2>
-          <a asp-controller="Cliente" asp-action="Cadastrar" class="btn-success btn"><i class="bi bi-plus-circle"></i> Cadastrar novo cliente</a>
+          <a asp-controller="Usuario" asp-action="Cadastrar" asp-route-id="0" class="btn-success btn"><i class="bi bi-plus-circle"></i> Cadastrar novo cliente</a>
     </div>
 
     <table class="table table-hover" id="usuarios">
@@ -40,30 +40,30 @@
         </tr>
       </thead>
       <tbody>
-            @if (Model.Where(registros => registros.Situação == true).Count() > 0)
+            @if (Model.Count() > 0)
             {
-                @foreach (var usuario in Model.Where(registros => registros.Situação == true).ToList())
+                @foreach (var usuario in Model)
                 {
                      <tr>
                         @if(usuario.Situação == true)
                         {
                             <td>
-                                <img src="img/Ativo.png" style="width: 25px; height: 25px"/>
+                                <img src="~/img/Ativo.png" style="width: 25px; height: 25px"/>
                             </td>
                         }else
                         {
                             <td>
-                                <img src="img/Inativo.png" style="width: 25px; height: 25px" />
+                                <img src ="~/img/Inativo.png" style="width: 25px; height: 25px" />
                             </td>
                         }
                         <th scope="row"><i class="bi bi-people"></i> @usuario.Usuario</th>
                       <td>@usuario.NomeCompleto</td>
-                      <td>@usuario.Endereco.Estado</td>
+                      <td>@usuario.Endereco.Estado</td> 
                       <td><i class="bi bi-envelope-at"></i> @usuario.Email</td>
                       <td><i class="bi bi-calendar"></i> @usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
                       <td>
-                          <a asp-controller="Cliente" asp-action="Detalhes" asp-route-id="@usuario.Id" class="btn-warning btn"><i class="bi bi-file-earmark-zip"></i> Detalhes</a>
-                          <a asp-controller="Cliente" asp-action="Editar" asp-route-id="@usuario.Id" class="btn-info btn"><i class="bi bi-pencil"></i> Editar</a>
+                          <a asp-controller="Usuario" asp-action="Detalhes" asp-route-id="@usuario.Id" class="btn-warning btn"><i class="bi bi-file-earmark-zip"></i> Detalhes</a>
+                            <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@usuario.Id" class="btn-info btn"><i class="bi bi-pencil"></i> Editar</a>
                       </td>
                     </tr>
                 }

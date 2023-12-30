@@ -1,4 +1,5 @@
-﻿using LojaLivros.Enums;
+﻿using LojaLivros.Dtos.Endereco;
+using LojaLivros.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace LojaLivros.Dtos.Usuarios
@@ -18,6 +19,8 @@ namespace LojaLivros.Dtos.Usuarios
         public PerfilEnum Cargo { get; set; }
         [Required(ErrorMessage = "Selecione o turno!")]
         public TurnoEnum Turno { get; set; }
+        [Required]
+        public EnderecoEditarDto Endereco { get; set; }
 
 
     }

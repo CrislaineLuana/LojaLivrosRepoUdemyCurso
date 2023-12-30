@@ -11,8 +11,8 @@ namespace LojaLivros.Models
         public string CEP { get; set; }
         public string Estado { get; set; }
         public string Complemento { get; set; }
-        public int ClienteId { get; set; }
+        public int UsuarioId { get; set; }
         [JsonIgnore]
-        public ClienteModel Cliente { get; set; }
+        public UsuarioModel Usuario { get; set; }
     }
 }

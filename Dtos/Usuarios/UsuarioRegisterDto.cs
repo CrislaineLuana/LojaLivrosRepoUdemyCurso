@@ -17,6 +17,17 @@ namespace LojaLivros.Dtos.Usuarios
         public PerfilEnum Cargo { get; set; }
         [Required(ErrorMessage = "Selecione o turno!")]
         public TurnoEnum Turno { get; set; }
+        [Required(ErrorMessage = "Digite o logradouro!")]
+        public string Logradouro { get; set; }
+        [Required(ErrorMessage = "Digite o bairro!")]
+        public string Bairro { get; set; }
+        [Required(ErrorMessage = "Digite o número!")]
+        public string Numero { get; set; }
+        [Required(ErrorMessage = "Digite o CEP!")]
+        public string CEP { get; set; }
+        [Required(ErrorMessage = "Digite o estado!")]
+        public string Estado { get; set; }
+        public string? Complemento { get; set; }
         [Required(ErrorMessage = "Digite uma senha!")]
         [MinLength(6, ErrorMessage = "A senha deve ter no mínimo 6 caracteres!")]
         public string Senha { get; set; } = String.Empty;

@@ -9,7 +9,7 @@ namespace LojaLivros.Enums
     {
         Administrador = 1,
         Operador = 2,
-        Cliente = 3
+        Cliente = 0
         
     }
 }
