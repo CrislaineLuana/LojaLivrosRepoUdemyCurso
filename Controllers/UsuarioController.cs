@@ -27,20 +27,20 @@ namespace LojaLivros.Controllers
 
         public IActionResult Cadastrar(int? id)
         {
-            UsuarioRegisterDto usuarioRegisterDto = new UsuarioRegisterDto()
-            {
-                Cargo = PerfilEnum.Operador
-            };
+            UsuarioRegisterDto usuarioRegisterDto = new UsuarioRegisterDto();
+
+            ViewBag.Cargo = PerfilEnum.Operador;
 
             if (id != null)
             {
-                 usuarioRegisterDto = new UsuarioRegisterDto()
-                {
-                    Cargo = PerfilEnum.Cliente
-                };
+                //usuarioRegisterDto = new UsuarioRegisterDto();
+
+                ViewBag.Cargo = PerfilEnum.Cliente;
             }
-           
-            return View(usuarioRegisterDto);
+
+          
+
+            return View(null);
         }
 
         public async Task<IActionResult> Detalhes(int? Id)

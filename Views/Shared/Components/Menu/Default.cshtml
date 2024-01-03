@@ -1,0 +1,56 @@
+﻿@model UsuarioModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<a class="navbar-brand  " asp-area="" asp-controller="Home" asp-action="Index">Book Store</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarColor01">
+    <ul class="navbar-nav flex-grow-1 me-auto">
+        <li class="nav-item">
+            
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Página Inicial</a>
+
+            
+            
+        </li>
+
+    </ul>
+    <ul class="navbar-nav navbar-right">
+        
+        <li class="nav-item dropdown">
+            @if (Model != null)
+            {
+                <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    Painel Administrativo
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu flex-grow-1 bg-primary me-auto">
+                    <li> <a class="nav-link dropdown-item text-light  w-75" asp-area="" asp-controller="Funcionario" asp-action="Index">Usuários</a></li>
+                <li> <a class="nav-link dropdown-item text-light" asp-area="" asp-controller="Cliente" asp-action="Index" asp-route-id="0">Clientes</a></li>
+                <div class="dropdown-divider"></div>
+                <li> <a class="nav-link dropdown-item text-light" asp-area="" asp-controller="Livro" asp-action="Index">Livros</a></li>
+                <div class="dropdown-divider"></div>
+                <li> <a class="nav-link dropdown-item text-light" asp-area="" asp-controller="Livro" asp-action="Index">Relatórios</a></li>
+            </ul>
+            }
+        </li>
+
+        <li class="nav-item">
+            @if (Model != null)
+            {
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Sair">Sair</a>
+            }
+            else
+            {
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Sair">Login</a>
+            }
+        </li>
+    </ul>
+</div>

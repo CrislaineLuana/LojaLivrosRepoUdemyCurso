@@ -1,7 +1,9 @@
 ﻿using LojaLivros.Data;
 using LojaLivros.Dtos.Login;
+using LojaLivros.Dtos.Response;
 using LojaLivros.Models;
 using LojaLivros.Services.Autenticacao;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace LojaLivros.Services.Home
 {
@@ -15,25 +17,44 @@ namespace LojaLivros.Services.Home
                 _autenticacaoInterface = autenticacaoInterface;
         }
 
-        public async Task<ClienteModel> RealizarLogin(LoginDto loginDto)
+        public async Task<ServiceResponse<UsuarioModel>> RealizarLogin(LoginDto loginDto)
         {
+
+            ServiceResponse<UsuarioModel> serviceResponse = new ServiceResponse<UsuarioModel>();
             try
             {
-                // var cliente = _context.Clientes.
+                var cliente = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == loginDto.Email);
 
-                //Verificar se o login confere
+                if(cliente == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Credenciais Inválidas!";
+                    serviceResponse.Status = false;
+                    return serviceResponse;
+                }
 
-                //Gerar Token e colocar no localhost
-                //Entrar usuário
+                if(!_autenticacaoInterface.VerificaLogin(loginDto.Senha, cliente.PasswordHash, cliente.PasswordSalt))
+                 {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Credenciais Inválidas!";
+                    serviceResponse.Status = false;
+                    return serviceResponse;
+                }
 
-                return new ClienteModel();
+
+                var token = _autenticacaoInterface.CreateRandomToken(cliente);
+
+
+                serviceResponse.Dados = cliente;
+                serviceResponse.Mensagem = "Login Efetuado com sucesso!";
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
-
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Status = false;
             }
+            return serviceResponse;
         }
     }
 }
