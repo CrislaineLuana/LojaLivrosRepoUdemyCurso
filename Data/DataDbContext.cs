@@ -14,6 +14,7 @@ namespace LojaLivros.Data
         public DbSet<ClienteModel> Clientes { get; set; }
         public DbSet<EnderecoModel> Enderecos { get; set; }
         public DbSet<LivroModel> Livros { get; set; }
+        public DbSet<EmprestimoModel> Emprestimos { get; set; }
     }
 }
 

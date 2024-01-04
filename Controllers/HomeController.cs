@@ -50,6 +50,23 @@ namespace LojaLivros.Controllers
           
         }
 
+        public async Task <IActionResult> Detalhes(int? id)
+        {
+            var usuarioSessao = _sessao.BuscarSessao();
+            if (usuarioSessao != null)
+            {
+                ViewBag.LayoutPagina = "_Layout";
+            }
+            else
+            {
+                ViewBag.LayoutPagina = "_LayoutDeslogada";
+            }
+
+            var livro = await _livroInterface.BuscarLivroPorId(id);
+           return View(livro);
+        }
+
+
 
         public IActionResult Login()
         {

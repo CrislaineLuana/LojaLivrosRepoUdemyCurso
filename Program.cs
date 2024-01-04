@@ -1,5 +1,6 @@
 using LojaLivros.Data;
 using LojaLivros.Services.Autenticacao;
+using LojaLivros.Services.Emprestimo;
 using LojaLivros.Services.Home;
 using LojaLivros.Services.Livro;
 using LojaLivros.Services.Sessao;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<ILivroInterface, LivroService>();
 builder.Services.AddScoped<IHomeInterface, HomeService>();
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
 builder.Services.AddScoped<ISessao, Sessao>();
+builder.Services.AddScoped<IEmprestimoInterface, EmprestimoService>();
 
 
 builder.Services.AddSession(o =>

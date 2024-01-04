@@ -1,0 +1,32 @@
+﻿@model LivroModel
+@*
+  
+    Layout = ViewBag.LayoutPagina;
+*@
+@{
+
+    Layout = ViewBag.LayoutPagina;
+}
+
+
+<div class="container d-flex gap-5 justify-content-center align-items-center mt-5">
+    <div class="img">
+        <img src="/imagem/@Model.Capa" style="width:350px; height:550px; border-radius:10px"/>
+    </div>
+    <div class="conteudo">
+        <h2 style="font-size: 22px">@Model.Titulo</h2>
+        <h3>@Model.Autor</h3>
+        <p>@Model.Descricao</p>
+        <h5>Ano Publicação: @Model.AnoPublicacao</h5>
+        <div class="">
+            <p>Quantidade em estoque: @Model.QuantidadeEstoque</p>
+            <a type="submit" class="btn btn-primary w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Id"> 
+                Emprestar
+            </a>
+            <a type="submit" class="btn btn-primary w-10" style=" border-radius:10px" asp-action="Index" asp-controller="Home">
+                voltar
+            </a>
+        </div>
+    </div>
+
+</div>
