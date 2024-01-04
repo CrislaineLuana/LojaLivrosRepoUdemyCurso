@@ -35,6 +35,22 @@ namespace LojaLivros.Services.Livro
             }
         }
 
+        public async Task<List<LivroModel>> BuscarLivrosFiltro(string filtro)
+        {
+
+            try
+            {
+                var livros = await _context.Livros.Where(livro => livro.Titulo.Contains(filtro) || livro.Autor.Contains(filtro)).ToListAsync();
+                return livros;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<LivroModel> BuscarLivroPorId(int? id)
         {
 

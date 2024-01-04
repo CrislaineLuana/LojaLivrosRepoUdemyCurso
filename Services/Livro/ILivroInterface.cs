@@ -11,6 +11,7 @@ namespace LojaLivros.Services.Livro
         Task<LivroRegisterDto> Cadastrar(LivroRegisterDto livroDto, IFormFile foto);
         bool VerificaSeJaExisteCadastro(LivroRegisterDto livroDto);
         Task<LivroEditarDto> Editar(LivroEditarDto livroDto, IFormFile foto);
+        Task<List<LivroModel>> BuscarLivrosFiltro(string filtro);
     }
 
 }

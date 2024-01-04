@@ -20,21 +20,34 @@ namespace LojaLivros.Controllers
             _livroInterface = livroInterface;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Pesquisar = null)
         {
+
             // Se usuário logado redireciona para Home
             var usuarioSessao = _sessao.BuscarSessao();
-            if(usuarioSessao != null)
+            if (usuarioSessao != null)
             {
                 ViewBag.LayoutPagina = "_Layout";
-            }else
+            }
+            else
             {
                 ViewBag.LayoutPagina = "_LayoutDeslogada";
             }
-      
+            if (Pesquisar == null)
+            {
+                
 
-           IEnumerable<LivroModel> livros = await _livroInterface.BuscarLivros();
-            return View(livros);
+
+                IEnumerable<LivroModel> livrosdb = await _livroInterface.BuscarLivros();
+                return View(livrosdb);
+            }
+            else
+            {
+                IEnumerable<LivroModel> livros = await _livroInterface.BuscarLivrosFiltro(Pesquisar);
+                return View(livros);
+            }
+            
+          
         }
 
 
@@ -54,6 +67,7 @@ namespace LojaLivros.Controllers
 
             return RedirectToAction("Login", "Home");
         }
+
 
 
         [HttpPost]
