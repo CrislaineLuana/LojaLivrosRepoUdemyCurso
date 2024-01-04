@@ -1,8 +1,10 @@
-﻿using LojaLivros.Services.Usuario;
+﻿using LojaLivros.Filters;
+using LojaLivros.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LojaLivros.Controllers
 {
+    [UsuarioLogado]
     public class FuncionarioController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;

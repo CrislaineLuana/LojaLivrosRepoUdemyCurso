@@ -2,12 +2,14 @@
 using LojaLivros.Dtos.Endereco;
 using LojaLivros.Dtos.Usuarios;
 using LojaLivros.Enums;
+using LojaLivros.Filters;
 using LojaLivros.Models;
 using LojaLivros.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LojaLivros.Controllers
 {
+    [UsuarioLogado]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;

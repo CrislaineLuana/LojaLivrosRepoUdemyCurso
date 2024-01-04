@@ -2,6 +2,7 @@
 using LojaLivros.Dtos.Clientes;
 using LojaLivros.Dtos.Endereco;
 using LojaLivros.Dtos.Usuarios;
+using LojaLivros.Filters;
 using LojaLivros.Models;
 using LojaLivros.Services.Sessao;
 using LojaLivros.Services.Usuario;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LojaLivros.Controllers
 {
+    [UsuarioLogado]
     public class ClienteController : Controller
     {
         

@@ -3,12 +3,14 @@ using LojaLivros.Data;
 using LojaLivros.Dtos.Clientes;
 using LojaLivros.Dtos.Endereco;
 using LojaLivros.Dtos.Livro;
+using LojaLivros.Filters;
 using LojaLivros.Models;
 using LojaLivros.Services.Livro;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LojaLivros.Controllers
 {
+     [UsuarioLogado]
     public class LivroController : Controller
     {
        

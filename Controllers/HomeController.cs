@@ -1,6 +1,7 @@
 ﻿using LojaLivros.Dtos.Login;
 using LojaLivros.Models;
 using LojaLivros.Services.Home;
+using LojaLivros.Services.Livro;
 using LojaLivros.Services.Sessao;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -11,18 +12,29 @@ namespace LojaLivros.Controllers
     {
         private readonly IHomeInterface _homeInterface;
         private readonly ISessao _sessao;
-        public HomeController(IHomeInterface homeInterface, ISessao sessao)
+        private readonly ILivroInterface _livroInterface;
+        public HomeController(IHomeInterface homeInterface, ISessao sessao, ILivroInterface livroInterface)
         {
             _homeInterface = homeInterface;
             _sessao = sessao;
+            _livroInterface = livroInterface;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // Se usuário logado redireciona para Home
-           
+            var usuarioSessao = _sessao.BuscarSessao();
+            if(usuarioSessao != null)
+            {
+                ViewBag.LayoutPagina = "_Layout";
+            }else
+            {
+                ViewBag.LayoutPagina = "_LayoutDeslogada";
+            }
+      
 
-            return View();
+           IEnumerable<LivroModel> livros = await _livroInterface.BuscarLivros();
+            return View(livros);
         }
 
 
