@@ -38,18 +38,30 @@ namespace LojaLivros.Controllers
         }
 
 
-        public async Task<IActionResult> Perfil()
+        public async Task<IActionResult> Perfil(string pesquisar = null, string filtro = "NDevolvidos")
         {
 
             var sessaoUsuario = _sessao.BuscarSessao();
 
             if (sessaoUsuario == null) return RedirectToAction("Login", "Home");
 
+            if(filtro != null)
+            {
+                ViewBag.Filtro = filtro;
+            }
+
+
+            if(pesquisar != null)
+            {
+                var emprestimosFiltrado = await _emprestimoInterface.BuscarEmprestimosFiltro(sessaoUsuario, pesquisar);
+
+                return View(emprestimosFiltrado);
+            }
+
             var emprestimosUsuario = await _emprestimoInterface.BuscarEmprestimos(sessaoUsuario);
 
             return View(emprestimosUsuario);
         }
-
 
 
 

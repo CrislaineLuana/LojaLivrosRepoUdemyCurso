@@ -8,5 +8,6 @@ namespace LojaLivros.Services.Emprestimo
         Task<ServiceResponse<EmprestimoModel>> Emprestar(int livroId);
         Task<List<LivroModel>> BuscarEmprestimos(UsuarioModel usuario);
         Task<EmprestimoModel> Devolver(int idEmprestimo);
+        Task<List<LivroModel>> BuscarEmprestimosFiltro(UsuarioModel usuario, string pesquisar);
     }
 }
