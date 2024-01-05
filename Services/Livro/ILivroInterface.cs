@@ -6,6 +6,7 @@ namespace LojaLivros.Services.Livro
 {
     public interface ILivroInterface
     {
+        Task<EmprestimoModel> BuscarLivroPorId(int? id, UsuarioModel usuario);
         Task<LivroModel> BuscarLivroPorId(int? id);
         Task<List<LivroModel>> BuscarLivros();
         Task<LivroRegisterDto> Cadastrar(LivroRegisterDto livroDto, IFormFile foto);

@@ -51,12 +51,26 @@ namespace LojaLivros.Services.Livro
             }
         }
 
+        public async Task<EmprestimoModel> BuscarLivroPorId(int? id, UsuarioModel usuario)
+        {
+
+            // var livro = await _context.Livros.FirstOrDefaultAsync(livro => livro.Id == id);
+            if(usuario == null)
+            {
+                var emprestimoSemUsuario = await _context.Emprestimos.Include(livro => livro.Livro).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id);
+                return emprestimoSemUsuario;
+            }
+            var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).Include(usuario => usuario.Usuario).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id);
+
+            return emprestimo;
+        }
+
         public async Task<LivroModel> BuscarLivroPorId(int? id)
         {
 
-            var livro = await _context.Livros.FirstOrDefaultAsync(livro => livro.Id == id);
-     
-      
+             var livro = await _context.Livros.FirstOrDefaultAsync(livro => livro.Id == id);
+            
+
             return livro;
         }
 

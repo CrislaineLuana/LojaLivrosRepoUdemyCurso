@@ -42,8 +42,8 @@
             
 
             @if (Model.Count() > 0)
-            {
-                @foreach (var livro in Model)
+{
+                    @foreach (var livro in Model.Where(livro => livro.QuantidadeEstoque > 0).ToList())
                 {
                     
                     <div class="card card-livros" style="width: 18rem; margin-left: 20px; margin-bottom:20px">

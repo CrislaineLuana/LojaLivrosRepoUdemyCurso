@@ -20,6 +20,7 @@ namespace LojaLivros.Models
         public int AnoPublicacao { get; set; }
         [Required]
         public int QuantidadeEstoque { get; set; }
+        public ICollection<EmprestimoModel> Emprestimos { get; set; }
         [Required]
         public string Descricao { get; set; }
         public DateTime DataCadastro { get; set; } = DateTime.Now;

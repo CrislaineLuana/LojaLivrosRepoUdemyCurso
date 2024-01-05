@@ -1,0 +1,65 @@
+﻿@model IEnumerable<LivroModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success text-dark" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger text-dark" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
+
+<div class="album py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <form method="get" asp-action="Pesquisar" asp-controller="Cliente" class="d-flex justify-content-center">
+                <input name="pesquisar" class="form-control w-50 mx-2" style="border: 1px solid black; border-radius:10px" />
+                <button type="submit" class="btn btn-primary w-10" style=" border-radius:10px">Pesquisar</button>
+            </form>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-0">
+
+
+
+            @if (Model.Count() > 0)
+            {
+                @foreach (var emprestimo in Model)
+                {
+
+                    <div class="card card-livros" style="width: 18rem; margin-left: 20px; margin-bottom:20px">
+                        <img src="/imagem/@emprestimo.Capa" class="card-img-top" alt="..." style="width:178px;height:250px">
+                        <div class="card-body">
+                            <h5 class="card-title">@emprestimo.Titulo</h5>
+                            <p class="card-text">@emprestimo.Autor</p>
+                            <p class="card-text">Data empréstimo: @emprestimo.Emprestimos.First().DataEmprestimo</p>
+                            <p class="card-text">Data Devolução: @(emprestimo.Emprestimos.First().DataDevolução == null ? "Não devolvido" : emprestimo.Emprestimos.First().DataDevolução)</p>
+                            @if (emprestimo.Emprestimos.First().DataDevolução == null)
+                            {
+                                <a type="submit" class="btn btn-danger w-100" style="font-size:16px" asp-action="Devolver" asp-controller="Emprestimo" asp-route-id="@emprestimo.Emprestimos.First().Id">Devolver</a>
+                            }else
+                            {
+                                <a type="submit" class="btn btn-success w-100" style="font-size:16px">DEVOLVIDO</a>
+                            }
+
+                        </div>
+                    </div>
+
+
+                }
+            }
+
+
+
+        </div>
+    </div>
+</div>

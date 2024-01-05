@@ -51,6 +51,8 @@ namespace LojaLivros.Controllers
         }
 
         public async Task <IActionResult> Detalhes(int? id)
+        
+        
         {
             var usuarioSessao = _sessao.BuscarSessao();
             if (usuarioSessao != null)
@@ -61,8 +63,8 @@ namespace LojaLivros.Controllers
             {
                 ViewBag.LayoutPagina = "_LayoutDeslogada";
             }
-
-            var livro = await _livroInterface.BuscarLivroPorId(id);
+            
+            var livro = await _livroInterface.BuscarLivroPorId(id, usuarioSessao);
            return View(livro);
         }
 

@@ -25,6 +25,7 @@ namespace LojaLivros.Models
         public byte[] PasswordSalt { get; set; }
         [Required]
         public EnderecoModel Endereco { get; set; }
+        public ICollection<EmprestimoModel> Emprestimos { get; set; }
         [Required]
         public DateTime DataCadastro { get; set; } = DateTime.Now;
         public DateTime DataAlteracao { get; set; } = DateTime.Now;

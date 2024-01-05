@@ -3,6 +3,7 @@ using LojaLivros.Dtos.Response;
 using LojaLivros.Models;
 using LojaLivros.Services.Livro;
 using LojaLivros.Services.Sessao;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace LojaLivros.Services.Emprestimo
@@ -40,16 +41,19 @@ namespace LojaLivros.Services.Emprestimo
                 {
                     UsuarioId = sessaoUsuario.Id,
                     LivroId = livroId,
-                    Usuario = sessaoUsuario,
+                    //Usuario = sessaoUsuario,
                     Livro = livro
                 };
 
                 _context.Add(emprestimo);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                BaixarEstoque(livro);
+           
+              
 
+                var livroEstoque = await BaixarEstoque(livro);
 
+                serviceResponse.Dados = emprestimo;
             }
             catch (Exception ex) {
 
@@ -62,18 +66,82 @@ namespace LojaLivros.Services.Emprestimo
         }
 
 
-            public async void BaixarEstoque(LivroModel livro)
+        
+
+
+        public async Task<List<LivroModel>> BuscarEmprestimos(UsuarioModel usuario)
+        {
+
+           
+            try
+            {
+                //var usuarioEmprestimos3 = await _context.Emprestimos.Where(usuario => usuario.UsuarioId == usuario.Id).Include(livro => livro.Livro).Include(usuario => usuario.Usuario).ToListAsync();
+
+                var usuarioEmprestimos2 = await _context.Livros.Include(emprestimos => emprestimos.Emprestimos).Where(usuario => usuario.Id == usuario.Id).ToListAsync();
+
+
+                return usuarioEmprestimos2;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+
+         
+        }
+
+        public async Task<EmprestimoModel> Devolver(int idEmprestimo)
+        {
+
+
+            try
+            {
+                var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).FirstOrDefaultAsync(emprestimo => emprestimo.Id == idEmprestimo);
+
+                if(emprestimo == null)
+                {
+                    throw new Exception("Empéstimo não localizado!");
+                }
+
+                emprestimo.DataDevolução = DateTime.Now;
+
+                _context.Update(emprestimo);
+                await _context.SaveChangesAsync();
+
+                var livroEstoque = await RetornarEstoque(emprestimo.Livro);
+
+                return emprestimo;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+
+
+        }
+
+
+
+        public async Task<LivroModel> BaixarEstoque(LivroModel livro)
             {
                 livro.QuantidadeEstoque--;
                 _context.Update(livro);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+
+                return livro;
             }
 
-            public async void RetornarEstoque(LivroModel livro)
+            public async Task<LivroModel> RetornarEstoque(LivroModel livro)
             {
                 livro.QuantidadeEstoque++;
                 _context.Update(livro);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+
+            return livro;
         }
     }
 }
