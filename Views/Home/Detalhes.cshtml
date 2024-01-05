@@ -37,23 +37,32 @@
 
             @if(Model.Usuario != null)
             {
-                @if (Model.Usuario.Emprestimos.Where(emprestimo => emprestimo.LivroId == Model.LivroId && emprestimo.DataDevolução == null).Count() > 0)
+                @if (ViewBag.Emprestimos != "SemEmprestimos")
                 {
-                    <button type="submit" class="btn btn-warn w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Id" disabled>
-                        Você já está com esse livro emprestado!
-                    </button>
+                    @if (Model.Usuario.Emprestimos.Where(emprestimo => emprestimo.LivroId == Model.LivroId && emprestimo.DataDevolução == null).Count() > 0)
+                    {
+                        <button type="submit" class="btn btn-warn w-10" style=" border-radius:10px" disabled>
+                            Você já está com esse livro emprestado!
+                        </button>
+                    }else
+                    {
+                        <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
+                            Emprestar
+                        </a>
+                    }
                 }
+                
                 else
                 {
-                    <a type="submit" class="btn btn-sucess w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Id">
+                    <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
                         Emprestar
                     </a>
                 }
             }else
             {
-                <button type="submit" class="btn btn-danger w-10" style=" border-radius:10px" asp-action="Login" asp-controller="Home" asp-route-id="@Model.Id" disabled>
+                <a type="submit" class="btn btn-danger w-10" style=" border-radius:10px" asp-action="Login" asp-controller="Home">
                     É necessário estár logado para emprestar livros!
-                </button>
+                </a>
             }
             
             

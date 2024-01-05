@@ -58,17 +58,49 @@ namespace LojaLivros.Services.Livro
             if(usuario == null)
             {
                 var emprestimoSemUsuario = await _context.Emprestimos.Include(livro => livro.Livro).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id);
+
+                if(emprestimoSemUsuario == null)
+                {
+                    var livro = await BuscarLivroPorId(id);
+                    
+                    var emprestimoBanco = new EmprestimoModel
+                    {
+                        Livro = livro,
+                        Usuario = null
+                    };
+                    return emprestimoBanco;
+                }
+
                 return emprestimoSemUsuario;
             }
-            var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).Include(usuario => usuario.Usuario).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id);
+
+
+            var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).Include(usuario => usuario.Usuario).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id && emprestimo.DataDevolução == null);
+
+            if(emprestimo == null)
+            {
+                var livro = await BuscarLivroPorId(id);
+
+                var emprestimoBanco = new EmprestimoModel
+                {
+                    Livro = livro,
+                    Usuario = usuario
+                };
+
+                return emprestimoBanco;
+            }
+
 
             return emprestimo;
         }
 
+
+
+
         public async Task<LivroModel> BuscarLivroPorId(int? id)
         {
 
-             var livro = await _context.Livros.FirstOrDefaultAsync(livro => livro.Id == id);
+             var livro = await _context.Livros.Include(emprestimo => emprestimo.Emprestimos).FirstOrDefaultAsync(livro => livro.Id == id);
             
 
             return livro;

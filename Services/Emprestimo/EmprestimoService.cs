@@ -20,7 +20,7 @@ namespace LojaLivros.Services.Emprestimo
                 _livroInterface = livroInterface;
         }
 
-        public async Task<ServiceResponse<EmprestimoModel>> Emprestar(int livroId)
+        public async Task<ServiceResponse<EmprestimoModel>> Emprestar(int Id)
         {
 
             ServiceResponse<EmprestimoModel> serviceResponse = new ServiceResponse<EmprestimoModel>();
@@ -35,12 +35,12 @@ namespace LojaLivros.Services.Emprestimo
                     return serviceResponse;
                 }
 
-                var livro = await _livroInterface.BuscarLivroPorId(livroId);
+                var livro = await _livroInterface.BuscarLivroPorId(Id);
 
                var emprestimo =  new EmprestimoModel
                 {
                     UsuarioId = sessaoUsuario.Id,
-                    LivroId = livroId,
+                    LivroId = Id,
                     //Usuario = sessaoUsuario,
                     Livro = livro
                 };

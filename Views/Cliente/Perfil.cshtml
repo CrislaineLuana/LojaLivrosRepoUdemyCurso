@@ -21,6 +21,7 @@
 
 <div class="album py-5">
     <div class="container">
+        <h1>Livros não devolvidos</h1>
         <div class="text-center mb-5">
             <form method="get" asp-action="Pesquisar" asp-controller="Cliente" class="d-flex justify-content-center">
                 <input name="pesquisar" class="form-control w-50 mx-2" style="border: 1px solid black; border-radius:10px" />
@@ -33,26 +34,31 @@
 
             @if (Model.Count() > 0)
             {
-                @foreach (var emprestimo in Model)
+                @foreach (var emprestimos in Model)
                 {
+                    @foreach (var emprestimo in emprestimos.Emprestimos.Where(emprestimos => emprestimos.DataDevolução == null).ToList())
+                    {
+                        <div class="card card-livros" style="width: 18rem; margin-left: 20px; margin-bottom:20px">
+                            <img src="/imagem/@emprestimo.Livro.Capa" class="card-img-top" alt="..." style="width:178px;height:250px">
+                            <div class="card-body">
+                                <h5 class="card-title">@emprestimo.Livro.Titulo</h5>
+                                <p class="card-text">@emprestimo.Livro.Autor</p>
+                                <p class="card-text">Data empréstimo: @emprestimo.DataEmprestimo</p>
+                                <p class="card-text">Data Devolução: @(emprestimo.DataDevolução == null ? "Não devolvido" : emprestimo.DataDevolução)</p>
+                                @if (emprestimo.DataDevolução == null)
+                                {
+                                    <a type="submit" class="btn btn-danger w-100" style="font-size:16px" asp-action="Devolver" asp-controller="Emprestimo" asp-route-id="@emprestimo.Id">Devolver</a>
+                                }
+                                else
+                                {
+                                    <a type="submit" class="btn btn-success w-100" style="font-size:16px">DEVOLVIDO</a>
+                                }
 
-                    <div class="card card-livros" style="width: 18rem; margin-left: 20px; margin-bottom:20px">
-                        <img src="/imagem/@emprestimo.Capa" class="card-img-top" alt="..." style="width:178px;height:250px">
-                        <div class="card-body">
-                            <h5 class="card-title">@emprestimo.Titulo</h5>
-                            <p class="card-text">@emprestimo.Autor</p>
-                            <p class="card-text">Data empréstimo: @emprestimo.Emprestimos.First().DataEmprestimo</p>
-                            <p class="card-text">Data Devolução: @(emprestimo.Emprestimos.First().DataDevolução == null ? "Não devolvido" : emprestimo.Emprestimos.First().DataDevolução)</p>
-                            @if (emprestimo.Emprestimos.First().DataDevolução == null)
-                            {
-                                <a type="submit" class="btn btn-danger w-100" style="font-size:16px" asp-action="Devolver" asp-controller="Emprestimo" asp-route-id="@emprestimo.Emprestimos.First().Id">Devolver</a>
-                            }else
-                            {
-                                <a type="submit" class="btn btn-success w-100" style="font-size:16px">DEVOLVIDO</a>
-                            }
-
+                            </div>
                         </div>
-                    </div>
+                    }
+
+                    
 
 
                 }

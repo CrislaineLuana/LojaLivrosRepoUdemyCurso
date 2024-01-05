@@ -65,6 +65,17 @@ namespace LojaLivros.Controllers
             }
             
             var livro = await _livroInterface.BuscarLivroPorId(id, usuarioSessao);
+
+            if(livro.Usuario != null)
+            {
+                if (livro.Usuario.Emprestimos == null)
+                {
+                    ViewBag.Emprestimos = "SemEmprestimos";
+                }
+            }
+           
+
+
            return View(livro);
         }
 
