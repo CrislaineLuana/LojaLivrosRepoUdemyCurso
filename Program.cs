@@ -3,6 +3,7 @@ using LojaLivros.Services.Autenticacao;
 using LojaLivros.Services.Emprestimo;
 using LojaLivros.Services.Home;
 using LojaLivros.Services.Livro;
+using LojaLivros.Services.Relatorio;
 using LojaLivros.Services.Sessao;
 using LojaLivros.Services.Usuario;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IHomeInterface, HomeService>();
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IEmprestimoInterface, EmprestimoService>();
+builder.Services.AddScoped<IRelatorioInterface, RelatorioService>();
 
 
 builder.Services.AddSession(o =>
