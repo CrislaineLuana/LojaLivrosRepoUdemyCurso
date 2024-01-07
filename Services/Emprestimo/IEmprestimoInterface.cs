@@ -9,5 +9,6 @@ namespace LojaLivros.Services.Emprestimo
         Task<List<LivroModel>> BuscarEmprestimos(UsuarioModel usuario);
         Task<EmprestimoModel> Devolver(int idEmprestimo);
         Task<List<LivroModel>> BuscarEmprestimosFiltro(UsuarioModel usuario, string pesquisar);
+        Task<List<EmprestimoModel>> BuscarEmprestimosGeral(string tipo = null);
     }
 }

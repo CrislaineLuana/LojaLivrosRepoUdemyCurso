@@ -21,12 +21,7 @@
 
 <div class="album py-5">
     <div class="container">
-        <div class="text-center mb-5">
-            <form method="get" asp-action="Index" asp-controller="Home" class="d-flex justify-content-center">
-                <input name="pesquisar" class="form-control w-50 mx-2" style="border: 1px solid black; border-radius:10px" />
-                <button type="submit" class="btn btn-primary w-10" style=" border-radius:10px">Pesquisar</button>
-            </form>
-        </div>
+
         <h2 class="text-center mb-5">Relatórios</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-0">
 
@@ -37,7 +32,7 @@
 
                     <div class="card card-livros" style="width: 25rem; margin-left: 20px; margin-bottom:20px">
                         <div class="card-body">
-                        <h5 class="card-title text-center" style="font-size:14px">@relatorio.ToString()</h5>
+                        <h5 class="card-title text-center" style="font-size:11px">@relatorio.ToString()</h5>
                         <a type="submit" class="btn btn-success w-100" style="font-size:12px" asp-action="Gerar" asp-controller="Relatorio" asp-route-id="@relatorio.GetHashCode()">Excel</a>
                         </div>
                     </div>

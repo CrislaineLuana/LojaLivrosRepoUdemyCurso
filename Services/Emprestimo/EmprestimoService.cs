@@ -66,7 +66,40 @@ namespace LojaLivros.Services.Emprestimo
         }
 
 
-        
+        public async Task<List<EmprestimoModel>> BuscarEmprestimosGeral(string tipo = null)
+        {
+
+
+            try
+            {
+                //var usuarioEmprestimos3 = await _context.Emprestimos.Where(usuario => usuario.UsuarioId == usuario.Id).Include(livro => livro.Livro).Include(usuario => usuario.Usuario).ToListAsync();
+
+
+
+                if(tipo == null)
+                {
+                    var emprestimosDevolvidos = await _context.Emprestimos.Include(emprestimos => emprestimos.Livro).Include(usuario => usuario.Usuario).Where(emprestimo => emprestimo.DataDevolução != null).ToListAsync();
+                    return emprestimosDevolvidos;
+                } else
+                {
+                    var emprestimosPendentes = await _context.Emprestimos.Include(emprestimos => emprestimos.Livro).Include(usuario => usuario.Usuario).Where(emprestimo => emprestimo.DataDevolução == null).ToListAsync();
+                    return emprestimosPendentes;
+                }
+
+                
+
+
+             
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+
+
+        }
 
 
         public async Task<List<LivroModel>> BuscarEmprestimos(UsuarioModel usuario)

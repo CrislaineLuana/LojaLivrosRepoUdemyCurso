@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LojaLivros.Dtos.Endereco;
 using LojaLivros.Dtos.Livro;
+using LojaLivros.Dtos.Relatorios;
 using LojaLivros.Dtos.Usuarios;
 using LojaLivros.Models;
 
@@ -21,6 +22,10 @@ namespace LojaLivros.Profiles
             CreateMap<LivroModel, LivroRegisterDto>();
             CreateMap<LivroEditarDto, LivroModel>();
             CreateMap<LivroModel, LivroEditarDto>();
+            CreateMap<LivroModel, LivroRelatorioDto>();
+            CreateMap<UsuarioModel, ClienteRelatorioDto>();
+            CreateMap<UsuarioModel, FuncionarioRelatorioDto>();
+
         }
     }
 }

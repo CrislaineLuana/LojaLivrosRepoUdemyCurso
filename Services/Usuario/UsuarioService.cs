@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LojaLivros.Data;
 using LojaLivros.Dtos.Clientes;
+using LojaLivros.Dtos.Relatorios;
 using LojaLivros.Dtos.Usuarios;
 using LojaLivros.Models;
 using LojaLivros.Services.Autenticacao;
@@ -200,5 +201,10 @@ namespace LojaLivros.Services.Usuario
                 throw new Exception(ex.Message);
             }
         }
+
+     
+
+
+
     }
 }
