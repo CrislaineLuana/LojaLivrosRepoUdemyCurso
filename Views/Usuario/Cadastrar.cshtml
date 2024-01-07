@@ -63,36 +63,36 @@
         <div class="col-12 d-flex gap-1 w-100">
             <div class="mb-1 col-6">
                 <label class="form-label">CEP:</label>
-                <input type="text" asp-for="CEP" class="form-control shadow-none">
+                <input type="text" asp-for="CEP" class="form-control shadow-none" id="input-cep">
                 <span class="text-danger" asp-validation-for="CEP"></span>
             </div>
             <div class="mb-1 col-6">
                 <label class="form-label">Estado:</label>
-                <input type="text" asp-for="Estado" class="form-control shadow-none">
+                <input type="text" asp-for="Estado" class="form-control shadow-none" id="input-estado">
                 <span class="text-danger" asp-validation-for="Estado"></span>
             </div>
         </div>
         <div class="col-12 d-flex gap-1 w-100">
             <div class="mb-1 col-8 ">
                 <label class="form-label">Logradouro:</label>
-                <input type="text" asp-for="Logradouro" class="form-control shadow-none">
+                <input type="text" asp-for="Logradouro" class="form-control shadow-none" id="input-logradouro">
                 <span class="text-danger" asp-validation-for="Logradouro"></span>
             </div>
             <div class="mb-1 col-4">
                 <label class="form-label">Número:</label>
-                <input type="text" asp-for="Numero" class="form-control shadow-none">
+                <input type="text" asp-for="Numero" class="form-control shadow-none" >
                 <span class="text-danger" asp-validation-for="Numero"></span>
             </div>
         </div>
         <div class="col-12 d-flex gap-1">
             <div class="mb-1 col-6">
                 <label class="form-label">Bairro:</label>
-                <input type="text" asp-for="Bairro" class="form-control shadow-none">
+                <input type="text" asp-for="Bairro" class="form-control shadow-none" id="input-bairro">
                 <span class="text-danger" asp-validation-for="Bairro"></span>
             </div>
             <div class="mb-1 col-6">
                 <label class="form-label">Complemento:</label>
-                <input type="text" asp-for="Complemento" class="form-control shadow-none">
+                <input type="text" asp-for="Complemento" class="form-control shadow-none" id="input-complemento">
                 <span class="text-danger" asp-validation-for="Complemento"></span>
             </div>
         </div>
@@ -124,3 +124,34 @@
 
     </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+
+
+    var inputLogradouro = document.querySelector("#input-logradouro");
+    var inputBairro = document.querySelector("#input-bairro");
+    var inputCidade = document.querySelector("#input-cidade");
+    var inputComplemento = document.querySelector("#input-complemento");
+
+    $('#input-cep').focusout(async function(c){
+
+     
+
+        var value = c.target.value;
+        console.log(value);
+
+        var url = `https://viacep.com.br/ws/${value}/json/`
+
+        var resposta = await fetch(url);
+        var dados = await resposta.json();
+
+        document.querySelector("#input-logradouro").value = dados.logradouro;
+        document.querySelector("#input-bairro").value = dados.bairro;
+        document.querySelector("#input-estado").value = dados.uf;
+        document.querySelector("#input-complemento").value = dados.complemento;
+
+        console.log(dados);
+
+    })
+</script>

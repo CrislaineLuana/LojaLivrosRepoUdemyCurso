@@ -112,6 +112,7 @@ namespace LojaLivros.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Cadastrar(UsuarioRegisterDto usuarioRegisterDto)
+
         {
             if (ModelState.IsValid)
             {
@@ -128,7 +129,7 @@ namespace LojaLivros.Controllers
                 TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
                 if (usuario.Cargo != PerfilEnum.Cliente)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Funcionario");
                 }
                 return RedirectToAction("Index", "Cliente", new { Id = "0" });
 
