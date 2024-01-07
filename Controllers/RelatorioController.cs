@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using LojaLivros.Dtos.Relatorios;
+using LojaLivros.Filters;
 using LojaLivros.Models;
 using LojaLivros.Services.Emprestimo;
 using LojaLivros.Services.Livro;
@@ -13,6 +14,7 @@ using System.Data;
 
 namespace LojaLivros.Controllers
 {
+    [UsuarioLogado]
     public class RelatorioController : Controller
     {
         private readonly ISessao _sessao;

@@ -1,4 +1,5 @@
-﻿using LojaLivros.Services.Emprestimo;
+﻿using LojaLivros.Filters;
+using LojaLivros.Services.Emprestimo;
 using LojaLivros.Services.Home;
 using LojaLivros.Services.Livro;
 using LojaLivros.Services.Sessao;
@@ -8,6 +9,7 @@ namespace LojaLivros.Controllers
 {
     public class EmprestimoController : Controller
     {
+
         private readonly ISessao _sessao;
         private readonly ILivroInterface _livroInterface;
         private readonly IEmprestimoInterface _emprestimoInterface;

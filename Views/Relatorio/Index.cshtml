@@ -30,7 +30,7 @@
                 @foreach (var relatorio in Enum.GetValues(typeof(RelatorioEnum)))
                 {
 
-                    <div class="card card-livros" style="width: 25rem; margin-left: 20px; margin-bottom:20px">
+                    <div class="card card-livros" style="width: 40rem; margin-left: 20px; margin-bottom:20px">
                         <div class="card-body">
                         <h5 class="card-title text-center" style="font-size:11px">@relatorio.ToString()</h5>
                         <a type="submit" class="btn btn-success w-100" style="font-size:12px" asp-action="Gerar" asp-controller="Relatorio" asp-route-id="@relatorio.GetHashCode()">Excel</a>
