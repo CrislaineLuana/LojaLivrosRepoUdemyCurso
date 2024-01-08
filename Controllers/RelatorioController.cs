@@ -71,6 +71,7 @@ namespace LojaLivros.Controllers
                                 Email = cliente.Email,
                                 Situação = cliente.Situação.ToString(),
                                 Cargo = cliente.Cargo.ToString(),
+                                Turno = cliente.Turno.ToString(),
                                 Logradouro = cliente.Endereco.Logradouro,
                                 Bairro = cliente.Endereco.Bairro,
                                 Numero = cliente.Endereco.Numero,

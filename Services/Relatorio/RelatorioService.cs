@@ -126,7 +126,7 @@ namespace LojaLivros.Services.Relatorio
             
             foreach (var dado in dados)
             {
-                data.Rows.Add(dado.Id, dado.NomeCompleto, dado.Usuario, dado.Email, dado.Situação == "True" ? "Ativo" : "Inativo", dado.Cargo,dado.Logradouro, dado.Bairro, dado.Numero, dado.CEP, dado.Estado, dado.Complemento, dado.DataCadastro, dado.DataAlteracao);
+                data.Rows.Add(dado.Id, dado.NomeCompleto, dado.Usuario, dado.Email, dado.Situação == "True" ? "Ativo" : "Inativo", dado.Cargo, dado.Turno, dado.Logradouro, dado.Bairro, dado.Numero, dado.CEP, dado.Estado, dado.Complemento, dado.DataCadastro, dado.DataAlteracao); ;
             }
 
             return data;

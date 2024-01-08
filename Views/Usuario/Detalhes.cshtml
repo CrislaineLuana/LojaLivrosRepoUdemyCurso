@@ -42,6 +42,17 @@
                     <label class="form-label">E-mail:</label>
                     <input type="email" asp-for="Email" class="form-control shadow-none" disabled>
                 </div>
+                 @if (Model.Cargo != PerfilEnum.Cliente)
+                    {
+                     <div class="mb-1">
+                        <label class="form-label">Cargo:</label>
+                        <input type="text" asp-for="Cargo" class="form-control shadow-none" disabled>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label">Turno:</label>
+                        <input type="text" asp-for="Turno" class="form-control shadow-none" disabled>
+                    </div>
+                    }
                 <div class="mb-1">
                     <label class="form-label">Situação:</label>
                     <input type="text" value="@(Model.Situação == true ? "Ativo" : "Inativo")" class="form-control shadow-none" disabled>
