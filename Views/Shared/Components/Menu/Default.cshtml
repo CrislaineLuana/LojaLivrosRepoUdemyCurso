@@ -33,10 +33,9 @@
                 </a>
                 <ul class="dropdown-menu flex-grow-1 bg-primary me-auto">
 
-                @if(Model.Cargo != LojaLivros.Enums.PerfilEnum.Operador)
-                {
+               
                     <li> <a class="nav-link dropdown-item text-light  w-75" asp-area="" asp-controller="Funcionario" asp-action="Index">Usuários</a></li>
-                }
+                
                    
 
 
@@ -49,10 +48,15 @@
             }
         </li>
         
+        @if(Model != null && Model.Cargo == LojaLivros.Enums.PerfilEnum.Cliente)
+        {
             <li>
                 <a class="nav-link" asp-area="" asp-controller="Cliente" asp-action="Perfil">Meu Perfil</a>
             </li>
+
+        }
         
+
        
 
         <li class="nav-item">

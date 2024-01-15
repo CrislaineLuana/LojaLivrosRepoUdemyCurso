@@ -75,7 +75,7 @@ namespace LojaLivros.Services.Livro
             }
 
 
-            var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).Include(usuario => usuario.Usuario).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id && emprestimo.DataDevolução == null);
+            var emprestimo = await _context.Emprestimos.Include(livro => livro.Livro).Include(usuario => usuario.Usuario).FirstOrDefaultAsync(emprestimo => emprestimo.LivroId == id && emprestimo.DataDevolução == null && emprestimo.Usuario.Id == usuario.Id);
 
             if(emprestimo == null)
             {

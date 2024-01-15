@@ -55,12 +55,17 @@ namespace LojaLivros.Controllers
         
         {
             var usuarioSessao = _sessao.BuscarSessao();
+           
+            
+
             if (usuarioSessao != null)
             {
+                ViewBag.UsuarioLogado = usuarioSessao.Id;
                 ViewBag.LayoutPagina = "_Layout";
             }
             else
             {
+
                 ViewBag.LayoutPagina = "_LayoutDeslogada";
             }
             
@@ -112,6 +117,13 @@ namespace LojaLivros.Controllers
                     TempData["MensagemErro"] = "Credenciais inválidas!";
                     return View(login.Dados);
                 }
+
+                if(login.Dados.Situação == false)
+                    {
+
+                        TempData["MensagemErro"] = "Procure o suporte para verificar o status de sua conta!";
+                        return RedirectToAction("Login");
+                    }
 
                 _sessao.CriarSessao(login.Dados);
                 TempData["MensagemSucesso"] = "Usuário logado com sucesso!";

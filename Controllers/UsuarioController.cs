@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LojaLivros.Controllers
 {
     [UsuarioLogado]
+    [UsuarioLogadoCliente]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;

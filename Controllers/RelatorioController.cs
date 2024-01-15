@@ -15,6 +15,7 @@ using System.Data;
 namespace LojaLivros.Controllers
 {
     [UsuarioLogado]
+    [UsuarioLogadoCliente]
     public class RelatorioController : Controller
     {
         private readonly ISessao _sessao;

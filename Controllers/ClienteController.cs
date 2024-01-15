@@ -37,7 +37,7 @@ namespace LojaLivros.Controllers
             return View(clientes);
         }
 
-
+        [UsuarioLogadoOperador]
         public async Task<IActionResult> Perfil(string pesquisar = null, string filtro = "NDevolvidos")
         {
 

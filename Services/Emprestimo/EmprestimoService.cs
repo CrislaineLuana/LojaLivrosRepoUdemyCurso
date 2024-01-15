@@ -102,19 +102,19 @@ namespace LojaLivros.Services.Emprestimo
         }
 
 
-        public async Task<List<LivroModel>> BuscarEmprestimos(UsuarioModel usuario)
+        public async Task<List<EmprestimoModel>> BuscarEmprestimos(UsuarioModel usuario)
         {
 
            
             try
             {
-                //var usuarioEmprestimos3 = await _context.Emprestimos.Where(usuario => usuario.UsuarioId == usuario.Id).Include(livro => livro.Livro).Include(usuario => usuario.Usuario).ToListAsync();
+                var usuarioEmprestimos3 = await _context.Emprestimos.Where(u => u.UsuarioId == usuario.Id).Include(l => l.Livro).Include(u => u.Usuario).ToListAsync();
 
-                var usuarioEmprestimos2 = await _context.Livros.Include(emprestimos => emprestimos.Emprestimos).Where(usuario => usuario.Id == usuario.Id).ToListAsync();
+                //var usuarioEmprestimos2 = await _context.Livros.Include(emprestimos => emprestimos.Emprestimos ).Where(u => u.Id == u.Id).ToListAsync();
 
 
-                return usuarioEmprestimos2;
-
+                return usuarioEmprestimos3;
+                
             }
             catch (Exception ex)
             {

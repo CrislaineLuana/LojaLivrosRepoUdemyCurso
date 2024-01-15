@@ -37,25 +37,34 @@
 
             @if(Model.Usuario != null)
             {
-                @if (ViewBag.Emprestimos != "SemEmprestimos")
-                {
-                    @if (Model.Usuario.Emprestimos.Where(emprestimo => emprestimo.LivroId == Model.LivroId && emprestimo.DataDevolução == null).Count() > 0)
-                    {
-                        <button type="submit" class="btn btn-warn w-10" style=" border-radius:10px" disabled>
-                            Você já está com esse livro emprestado!
-                        </button>
-                    }else
-                    {
-                        <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
-                            Emprestar
-                        </a>
-                    }
-                }
+                @if(Model.Usuario.Cargo == LojaLivros.Enums.PerfilEnum.Cliente){
+                    
+                        @if (ViewBag.Emprestimos != "SemEmprestimos")
+                        {
+                            @if (Model.Usuario.Emprestimos.Where(emprestimo => emprestimo.LivroId == Model.LivroId && emprestimo.DataDevolução == null && emprestimo.Usuario.Id == ViewBag.UsuarioLogado).Count() > 0)
+                            {
+                                <button type="submit" class="btn btn-warn w-10" style=" border-radius:10px" disabled>
+                                    Você já está com esse livro emprestado!
+                                </button>
+                            }else
+                            {
+                                <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
+                                    Emprestar
+                                </a>
+                            }
+                        }
                 
-                else
+                        else
+                        {
+                            <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
+                                Emprestar
+                            </a>
+                        }
+                    
+                }else
                 {
-                    <a type="submit" class="btn btn-success w-10" style=" border-radius:10px" asp-action="Emprestar" asp-controller="Emprestimo" asp-route-id="@Model.Livro.Id">
-                        Emprestar
+                    <a type="submit" class="btn btn-primary w-10" style=" border-radius:10px" asp-action="Detalhes" asp-controller="Livro" asp-route-id="@Model.Livro.Id">
+                        Verificar detalhes
                     </a>
                 }
             }else

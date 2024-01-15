@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LojaLivros.Controllers
 {
      [UsuarioLogado]
+    [UsuarioLogadoCliente]
     public class LivroController : Controller
     {
        
