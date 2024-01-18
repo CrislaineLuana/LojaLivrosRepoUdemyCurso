@@ -99,7 +99,7 @@ namespace LojaLivros.Controllers
                 }
                 if(usuarioBanco.Cargo != PerfilEnum.Cliente)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Funcionario");
                 }
                 return RedirectToAction("Index", "Cliente",new { Id = "0"});
             }
@@ -153,7 +153,7 @@ namespace LojaLivros.Controllers
 
                 if (usuario.Cargo != PerfilEnum.Cliente)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Funcionario");
                 }
                 return RedirectToAction("Index", "Cliente", new { Id = "0" });
             }
